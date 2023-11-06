@@ -7,7 +7,7 @@ const utils = {
         return `${x*16},${y*16}`;
     },
     
-    nextposition(x, y, direction) {
+    nextPosition(x, y, direction) {
         const size = 16;
         const changes = {
             left: { x: x - size, y },
@@ -19,8 +19,21 @@ const utils = {
         return changes[direction] || {x, y};
     },
 
+    oppositeDirection(direction) {
+        opposite = {
+            left: "right",
+            right: "left",
+            up: "down",
+            down: "up",
+        }
+
+        return opposite[direction];
+    },
+
     emitEvent(name, detail) {
         // this is a native browser feature
         document.dispatchEvent(new CustomEvent(name, {detail}));
     },
+
+    
 }
