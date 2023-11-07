@@ -30,10 +30,16 @@ const utils = {
         return opposite[direction];
     },
 
+    wait(ms) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve();
+            }, ms);
+        });
+    },
+
     emitEvent(name, detail) {
         // this is a native browser feature
         document.dispatchEvent(new CustomEvent(name, {detail}));
-    },
-
-    
+    },   
 }
