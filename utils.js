@@ -38,6 +38,10 @@ const utils = {
         });
     },
 
+    randomFromArray(array) {
+        return array[Math.floor(Math.random() * array.length)];
+    },
+
     emitEvent(name, detail) {
         // this is a native browser feature
         document.dispatchEvent(new CustomEvent(name, {detail}));
