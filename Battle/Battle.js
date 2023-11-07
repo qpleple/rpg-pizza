@@ -6,7 +6,8 @@ class Battle {
                 team: "player",
                 hp: 50,
                 maxHp: 50,
-                xp: 0,
+                xp: 50,
+                maxXp: 100,
                 level: 1,
                 status: null,
             }, this),
@@ -16,6 +17,7 @@ class Battle {
                 hp: 50,
                 maxHp: 50,
                 xp: 20,
+                mapXp: 100,
                 level: 1,
                 status: null,
             }, this),
@@ -25,10 +27,16 @@ class Battle {
                 hp: 50,
                 maxHp: 50,
                 xp: 30,
+                maxXp: 100,
                 level: 1,
                 status: null,
             }, this),
-        }
+        };
+
+        this.activeCombatants = {
+            player: "player1",
+            enemy: "enemy1",
+        };
     }
 
     createElement() {
@@ -47,5 +55,11 @@ class Battle {
     init(container) {
         this.createElement();
         container.appendChild(this.element);
+
+        Object.keys(this.combatants).forEach(key => {
+            let combatant = this.combatants[key];
+            combatant.id = key;
+            combatant.init(this.element);
+        });
     }
 }
