@@ -24,10 +24,6 @@ class BattleEvent {
         const {caster, target, damage, recover, status, action} = this.event;
         let who = this.event.onCaster ? caster : target;
 
-        if (action.targetType === "friendly") {
-            who = caster;
-        }
-
         if (damage) {
             // Modify the target to have less HP
             target.update({
@@ -70,10 +66,11 @@ class BattleEvent {
         const menu = new SubmissionMenu({
             caster: this.event.caster,
             enemy: this.event.enemy,
+            items: this.battle.items,
             onComplete: submission => {
                 // submission {what move to use, who to use it on...}
                 resolve(submission);
-            }
+            },
         });
 
         menu.init(this.battle.element);

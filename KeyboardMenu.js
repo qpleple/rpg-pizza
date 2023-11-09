@@ -10,11 +10,10 @@ class KeyboardMenu {
         this.options = options;
         this.element.innerHTML = this.options.map((option, index) => {
             const disabledAttr = option.disabled ? "disabled" : "";
-            const autoFocusAttr = index === 0 ? "autoFocus" : "";
 
             return (`
                 <div class="option">
-                    <button ${disabledAttr} ${autoFocusAttr} data-button="${index}" data-description="${option.description}">
+                    <button ${disabledAttr} data-button="${index}" data-description="${option.description}">
                         ${option.label}
                     </button>
                     <span class="right">${option.right ? option.right() : ""}</span>
@@ -37,6 +36,10 @@ class KeyboardMenu {
                 this.descriptionElementText.innerText = button.dataset.description;
             });
         });
+
+        setTimeout(() => {
+            this.element.querySelector("button[data-button]:not([disabled])").focus();
+        }, 10);
     }
 
     createElement() {
@@ -50,9 +53,37 @@ class KeyboardMenu {
         this.descriptionElementText = this.descriptionElement.querySelector("p");
     }
 
+    end() {
+        // Remove elements
+        this.element.remove();
+        this.descriptionElement.remove();
+        
+        // Cleanup the bindings
+        this.up.unbind();
+        this.down.unbind();
+    }
+
     init(container) {
         this.createElement();
         container.appendChild(this.descriptionElement);
         container.appendChild(this.element);
+
+        this.up = new KeyPressListener("ArrowUp", () => {
+            const current = Number(this.prevFocus.getAttribute("data-button"));
+            const prevButton = Array.from(this.element.querySelectorAll("button[data-button]")).reverse().find(el => {
+                // get the 1st button in the ordered list that matches this condition
+                return el.dataset.button < current && !el.disabled;
+            });
+            prevButton?.focus();
+        });
+
+        this.down = new KeyPressListener("ArrowDown", () => {
+            const current = Number(this.prevFocus.getAttribute("data-button"));
+            const nextButton = Array.from(this.element.querySelectorAll("button[data-button]")).find(el => {
+                // get the 1st button in the ordered list that matches this condition
+                return el.dataset.button > current && !el.disabled;
+            });
+            nextButton?.focus();
+        });
     }
 }
