@@ -74,7 +74,7 @@ class SubmissionMenu {
                             return "x" + item.quantity;
                         },
                         handler: () => {
-                            this.menuSubmit(action, items.actionId);
+                            this.menuSubmit(action, item.instanceId);
                         }
                     }
                 }),

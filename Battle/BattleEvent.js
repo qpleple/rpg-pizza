@@ -48,7 +48,7 @@ class BattleEvent {
         }
 
         if (status === null) {
-            who.status({
+            who.update({
                 status: null,
             })
         }
